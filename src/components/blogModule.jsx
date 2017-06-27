@@ -16,7 +16,7 @@ class BlogModule extends React.Component {
         let blogPosts = [];
         if (this.state.isMobile) {
             blogPosts = this.props.posts.map((el, i) => (
-                <div className="swiper-slide">
+                <div key={i} className="swiper-slide">
                     <BlogPost key={i} post={el}/>
                 </div>
             ))
@@ -52,10 +52,12 @@ class BlogModule extends React.Component {
     componentDidMount() {
         this.initEventHandlers();
         this.props.loadPosts(this.props.url);
-        this.swiper = new Swiper (".blog-module.swiper-container");
+        this.swiper = new Swiper (".blog-module.swiper-container", {loop: true, slidesPerView: "auto", loopedSlides : 7});
     }
     componentDidUpdate() {
-        this.swiper.update();
+        //this.swiper.update();
+        this.swiper.destroy(true, true);
+        this.swiper = new Swiper (".blog-module.swiper-container", {loop: true, slidesPerView: "auto", loopedSlides : 7});
     }
     initEventHandlers(){
         this.mobileQuery.addListener(() => {this.setState({isMobile: this.mobileQuery.matches})});
